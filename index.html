@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Independence Day Greeting</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(to bottom, #FF9933, #FF9933 33%, #FFFFFF 33%, #FFFFFF 66%, #138808 66%, #138808);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .content {
+            display: none; /* Initially hide the content */
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+            max-width: 90%;
+            width: 500px;
+            margin-top: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .form-container {
+            text-align: center;
+        }
+        input[type="text"] {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1.2em;
+            width: 80%;
+            max-width: 300px;
+            margin-bottom: 15px;
+        }
+        input[type="submit"] {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            background-color: #FF9933;
+            color: #fff;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #cc7a29;
+        }
+        .message {
+            font-size: 1.5em;
+            color: #FFFFFF; /* Text color */
+            background-color: #FF9933; /* Saffron background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border: 3px solid #138808; /* Green border */
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .message:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        /* Sprinkles effect */
+        .sprinkles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .sprinkle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: sprinkleAnimation 1.5s forwards;
+        }
+        @keyframes sprinkleAnimation {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(3); /* Larger scale for more prominent effect */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form id="nameForm" onsubmit="return showContent(event)">
+            <input type="text" id="nameInput" placeholder="Enter your name" required>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="content" id="content">
+        <div id="greetingMessage" class="message"></div>
+    </div>
+    <div class="sprinkles" id="sprinkles"></div>
+
+    <script>
+        function showContent(event) {
+            event.preventDefault(); // Prevent form submission and page reload
+            var name = document.getElementById('nameInput').value;
+            var message = "Wishing you a wonderful Independence Day, " + name + "!";
+            document.getElementById('greetingMessage').textContent = message;
+            document.querySelector('.form-container').style.display = 'none'; // Hide the form
+            document.getElementById('content').style.display = 'block'; // Show the content
+            return false; // Prevent form from submitting
+        }
+
+        document.addEventListener('click', function(e) {
+            createSprinkles(e.pageX, e.pageY);
+        });
+
+        function createSprinkles(x, y) {
+            var sprinkles = document.getElementById('sprinkles');
+            var colors = ['#FF9933', '#FFFFFF', '#138808'];
+            for (var i = 0; i < 20; i++) {
+                var sprinkle = document.createElement('div');
+                sprinkle.className = 'sprinkle';
+                sprinkle.style.width = sprinkle.style.height = Math.random() * 40 + 20 + 'px'; // Larger size
+                sprinkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                sprinkle.style.left = (x + Math.random() * 100 - 50) + 'px'; // Adjust spread
+                sprinkle.style.top = (y + Math.random() * 100 - 50) + 'px'; // Adjust spread
+                sprinkles.appendChild(sprinkle);
+                setTimeout(function(sprinkle) {
+                    sprinkle.remove();
+                }, 1500, sprinkle); // Adjust duration to match animation
+            }
+        }
+    </script>
+</body>
+</html>
